@@ -25,30 +25,51 @@ function formatDateField(o: Record<string, any>): Record<string, any> {
   return out;
 }
 
-function removeLeadingZeroes(s: string): string {
-  return s.replace(/^0+/g, "");
-}
-
 /**
- * Given dates like Sep/10/2024 07 AM, parse it Sep 7 7AM
+ * Given dates like Sep/10/2024 07 AM, parse it into date and time
  */
-export function parseDate(dateString: string): string {
+export function parseDate(dateString: string): Date {
   const regex = /(\w+)\/(\d+)\/(\d+) (\d+) (AM|PM)/i;
   const match = dateString.match(regex)!;
 
-  const [monthRaw, dayRaw, , hourRaw, period] = match.slice(1); // ignore yearRaw
-  const hour = removeLeadingZeroes(hourRaw);
-  const day = removeLeadingZeroes(dayRaw);
-  //
+  const [monthRaw, dayRaw, yearRaw, hourRaw, period] = match.slice(1);
 
-  return `${monthRaw} ${day} ${hour}${period}`;
+  // Convert month abbreviation to number
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ].indexOf(monthRaw);
+
+  // Convert hour to 24-hour format
+  // Convert hour to 24-hour format, accounting for 12 AM and 12 PM
+  let hour = parseInt(hourRaw);
+  if (hour === 12) {
+    hour = 0; // 12AM is 0 hour and 12PM will be 12 hours
+  }
+  if (period === "PM") {
+    hour += 12;
+  }
+  const year = parseInt(yearRaw);
+  const day = parseInt(dayRaw);
+
+  return new Date(year, month, day, hour);
 }
 
 export interface IUVIndexData {
   zip: string;
   city: string;
   state: string;
-  dateTime: string;
+  dateTime: Date;
   uvValue: number;
 }
 //eslint-disable-next-line @typescript-eslint/no-explicit-any
