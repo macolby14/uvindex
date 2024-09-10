@@ -1,0 +1,170 @@
+[
+{
+"ORDER": 1,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 07 AM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 2,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 08 AM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 3,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 09 AM",
+"UV_VALUE": 1
+},
+{
+"ORDER": 4,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 10 AM",
+"UV_VALUE": 3
+},
+{
+"ORDER": 5,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 11 AM",
+"UV_VALUE": 5
+},
+{
+"ORDER": 6,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 12 PM",
+"UV_VALUE": 6
+},
+{
+"ORDER": 7,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 01 PM",
+"UV_VALUE": 7
+},
+{
+"ORDER": 8,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 02 PM",
+"UV_VALUE": 6
+},
+{
+"ORDER": 9,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 03 PM",
+"UV_VALUE": 5
+},
+{
+"ORDER": 10,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 04 PM",
+"UV_VALUE": 3
+},
+{
+"ORDER": 11,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 05 PM",
+"UV_VALUE": 2
+},
+{
+"ORDER": 12,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 06 PM",
+"UV_VALUE": 1
+},
+{
+"ORDER": 13,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 07 PM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 14,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 08 PM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 15,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 09 PM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 16,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 10 PM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 17,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/10/2024 11 PM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 18,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/11/2024 12 AM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 19,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/11/2024 01 AM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 20,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/11/2024 02 AM",
+"UV_VALUE": 0
+},
+{
+"ORDER": 21,
+"ZIP": "20050",
+"CITY": "Washington",
+"STATE": "DC",
+"DATE_TIME": "Sep/11/2024 03 AM",
+"UV_VALUE": 0
+}
+]
