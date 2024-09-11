@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
   LineChart,
+  ResponsiveContainer,
 } from "recharts";
 
 const fetchUvData = async () => {
@@ -46,33 +47,32 @@ export function UVIndexChart() {
             Loading...
           </div>
         ) : (
-          <LineChart
-            width={600}
-            height={300}
-            data={uvData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              domain={uvData.map((data) => data.dateTime)}
-              minTickGap={0}
-              type="number"
-              scale="time"
-              dataKey="dateTime"
-              tickFormatter={(datetime) =>
-                `${new Date(datetime).getHours()}:00`
-              }
-            />
-            <YAxis />
-            <Tooltip
-              labelFormatter={(datetime) =>
-                `Time: ${new Date(datetime).getHours()}:00`
-              }
-              formatter={(value) => [`UV Index: ${value}`]}
-            />
-            <Line dataKey="uvValue" type="monotone" stroke="#8884d8" />
-            <ReferenceLine x={currentTimestamp} stroke="red" label="Now" />
-          </LineChart>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              data={uvData}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                domain={uvData.map((data) => data.dateTime)}
+                type="number"
+                scale="time"
+                dataKey="dateTime"
+                tickFormatter={(datetime) =>
+                  `${new Date(datetime).getHours()}:00`
+                }
+              />
+              <YAxis />
+              <Tooltip
+                labelFormatter={(datetime) =>
+                  `Time: ${new Date(datetime).getHours()}:00`
+                }
+                formatter={(value) => [`UV Index: ${value}`]}
+              />
+              <Line dataKey="uvValue" type="monotone" stroke="#8884d8" />
+              <ReferenceLine x={currentTimestamp} stroke="red" label="Now" />
+            </LineChart>
+          </ResponsiveContainer>
         )}
       </CardContent>
     </Card>
