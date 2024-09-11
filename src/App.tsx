@@ -13,8 +13,6 @@ import {
   LineChart,
 } from "recharts";
 
-const EXAMPLE_CURRENT_TIMESTAMP = 1725980900000;
-
 const fetchUvData = async () => {
   const response = await fetch(
     "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
@@ -24,13 +22,11 @@ const fetchUvData = async () => {
 
 function App() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const currentTimestamp = EXAMPLE_CURRENT_TIMESTAMP; // new Date().getTime();
-
+  const currentTimestamp = new Date().getTime();
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
       const rawData = await fetchUvData();
       setLoading(false);
       const formattedData = parseRawUvData(rawData);
@@ -39,8 +35,6 @@ function App() {
 
     loadData();
   }, []);
-
-  console.log(JSON.stringify(uvData));
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -60,7 +54,9 @@ function App() {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               domain={uvData.map((data) => data.dateTime)}
+              minTickGap={0}
               type="number"
+              scale="time"
               dataKey="dateTime"
               tickFormatter={(datetime) =>
                 `${new Date(datetime).getHours()}:00`
