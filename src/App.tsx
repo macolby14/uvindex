@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import EXAMPLE_DATA from "./exampledata.json";
 import { IUVIndexData, parseRawUvData } from "@/parseUvData";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format as formatDate } from "date-fns";
 import {
   CartesianGrid,
@@ -38,7 +37,9 @@ function App() {
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
-      <CardHeader>UV Index for {formatDate(new Date(), "MMMM d")}</CardHeader>
+      <CardHeader>
+        <CardTitle>UV Index for {formatDate(new Date(), "MMMM d")}</CardTitle>
+      </CardHeader>
       <CardContent>
         {loading ? (
           <div className="flex justify-center items-center h-64">
