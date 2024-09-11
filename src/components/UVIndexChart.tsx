@@ -37,7 +37,7 @@ export function UVIndexChart() {
   }, []);
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>UV Index for {formatDate(new Date(), "MMMM d")}</CardTitle>
       </CardHeader>
@@ -50,7 +50,7 @@ export function UVIndexChart() {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={uvData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 5, right: 5, left: -40, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
