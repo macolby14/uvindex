@@ -15,6 +15,13 @@ import {
 
 const EXAMPLE_CURRENT_TIMESTAMP = 1725980900000;
 
+const fetchUvData = async () => {
+  const response = await fetch(
+    "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
+  ).then((data) => data.json());
+  return response;
+};
+
 function App() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -22,8 +29,15 @@ function App() {
   const currentTimestamp = EXAMPLE_CURRENT_TIMESTAMP; // new Date().getTime();
 
   useEffect(() => {
-    const formattedData = parseRawUvData(EXAMPLE_DATA);
-    setUvData(formattedData);
+    const loadData = async () => {
+      setLoading(true);
+      const rawData = await fetchUvData();
+      setLoading(false);
+      const formattedData = parseRawUvData(rawData);
+      setUvData(formattedData);
+    };
+
+    loadData();
   }, []);
 
   console.log(JSON.stringify(uvData));
