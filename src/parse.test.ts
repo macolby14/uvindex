@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseDate, parseRawUvData } from "./parse";
+import { parseDate, parseRawUvData } from "./parseUvData";
 
 test("Can parse a date with AM correctly", () => {
   expect(parseDate("Sep/10/2024 07 AM")).toStrictEqual(

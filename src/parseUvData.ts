@@ -26,9 +26,9 @@ function formatDateField(o: Record<string, any>): Record<string, any> {
 }
 
 /**
- * Given dates like Sep/10/2024 07 AM, parse it into date and time
+ * Given dates like Sep/10/2024 07 AM, parse it into a unix timestamp
  */
-export function parseDate(dateString: string): Date {
+export function parseDate(dateString: string): number {
   const regex = /(\w+)\/(\d+)\/(\d+) (\d+) (AM|PM)/i;
   const match = dateString.match(regex)!;
 
@@ -62,14 +62,14 @@ export function parseDate(dateString: string): Date {
   const year = parseInt(yearRaw);
   const day = parseInt(dayRaw);
 
-  return new Date(year, month, day, hour);
+  return new Date(year, month, day, hour).getTime();
 }
 
 export interface IUVIndexData {
   zip: string;
   city: string;
   state: string;
-  dateTime: Date;
+  dateTime: number; // timestmap
   uvValue: number;
 }
 //eslint-disable-next-line @typescript-eslint/no-explicit-any
