@@ -56,7 +56,7 @@ export function UVIndexChart() {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={uvData}
-              margin={{ top: 5, right: 5, left: -40, bottom: 5 }}
+              margin={{ top: 5, right: 5, left: -30, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -68,7 +68,7 @@ export function UVIndexChart() {
                   `${new Date(datetime).getHours()}:00`
                 }
               />
-              <YAxis />
+              <YAxis domain={[0, 11]} interval={0} ticks={[0, 3, 6, 8, 11]} />
               <Tooltip
                 labelFormatter={(datetime) =>
                   `Time: ${new Date(datetime).getHours()}:00`
@@ -92,25 +92,25 @@ export function UVIndexChart() {
               <ReferenceLine
                 y={3}
                 stroke="lightgrey"
-                label={{ value: "3+ Moderate", position: "insideRight" }}
+                label={{ value: "Moderate", position: "insideLeft" }}
                 position="start"
               />
               <ReferenceLine
                 y={6}
                 stroke="lightgrey"
-                label={{ value: "6+ High", position: "insideRight" }}
+                label={{ value: "High", position: "insideLeft" }}
                 position="start"
               />
               <ReferenceLine
                 y={8}
                 stroke="lightgrey"
-                label={{ value: "8+ Very High", position: "insideRight" }}
+                label={{ value: "Very High", position: "insideLeft" }}
                 position="start"
               />
               <ReferenceLine
                 y={11}
                 stroke="lightgrey"
-                label={{ value: "11+ Extreme", position: "insideRight" }}
+                label={{ value: "Extreme", position: "insideLeft" }}
                 position="start"
               />
             </LineChart>
