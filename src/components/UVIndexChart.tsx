@@ -20,11 +20,17 @@ const fetchUvData = async () => {
   return response;
 };
 
+const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+
 export function UVIndexChart() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
   const [loading, setLoading] = useState(true);
 
   const currentTimestamp = new Date().getTime();
+  const nextDayTimestamp = new Date(
+    currentTimestamp + MILLISECONDS_IN_DAY
+  ).setHours(0, 0, 0, 0);
+
   useEffect(() => {
     const loadData = async () => {
       const rawData = await fetchUvData();
@@ -70,7 +76,43 @@ export function UVIndexChart() {
                 formatter={(value) => [`UV Index: ${value}`]}
               />
               <Line dataKey="uvValue" type="monotone" stroke="#8884d8" />
-              <ReferenceLine x={currentTimestamp} stroke="red" label="Now" />
+              <ReferenceLine
+                x={currentTimestamp}
+                stroke="red"
+                label={{ value: "Now", position: "insideTop" }}
+              />
+              <ReferenceLine
+                x={nextDayTimestamp}
+                stroke="lightblue"
+                label={{
+                  position: "insideTop",
+                  value: formatDate(new Date(nextDayTimestamp), "MMM d"),
+                }}
+              />
+              <ReferenceLine
+                y={3}
+                stroke="lightgrey"
+                label={{ value: "3+ Moderate", position: "insideRight" }}
+                position="start"
+              />
+              <ReferenceLine
+                y={6}
+                stroke="lightgrey"
+                label={{ value: "6+ High", position: "insideRight" }}
+                position="start"
+              />
+              <ReferenceLine
+                y={8}
+                stroke="lightgrey"
+                label={{ value: "8+ Very High", position: "insideRight" }}
+                position="start"
+              />
+              <ReferenceLine
+                y={11}
+                stroke="lightgrey"
+                label={{ value: "11+ Extreme", position: "insideRight" }}
+                position="start"
+              />
             </LineChart>
           </ResponsiveContainer>
         )}
