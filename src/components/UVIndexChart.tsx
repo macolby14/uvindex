@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IUVIndexData, parseRawUvData } from "@/parseUvData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format as formatDate } from "date-fns";
@@ -43,45 +43,40 @@ export function UVIndexChart() {
   const [currentTimestamp, setCurrentTimestamp] = useState(
     new Date().getTime()
   );
-  const [dataTimestamp, setDataTimestamp] = useState(0);
+  const dataTimestampRef = useRef(0);
 
   const nextDayTimestamp = new Date(
     currentTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
 
-  const loadData = useCallback(async () => {
-    if (shouldFetchNewData(dataTimestamp)) {
+  const loadDataIfNeeded = async () => {
+    if (shouldFetchNewData(dataTimestampRef.current)) {
+      setLoading(true);
       const rawData = await fetchUvData();
-      setDataTimestamp(new Date().getTime());
+      setLoading(false);
+      dataTimestampRef.current = new Date().getTime();
       const formattedData = parseRawUvData(rawData);
       setUvData(formattedData);
     }
-  }, [dataTimestamp]);
+  };
 
   useEffect(() => {
+    // update current time every minute
     const updateCurrentTimeInterval = setInterval(() => {
       setCurrentTimestamp(new Date().getTime());
     }, MINUTE_IN_MILLISECONDS);
 
-    // check for new data immediately and then every hour
-    loadData();
-    const updateDataInterval = setInterval(loadData, HOUR_IN_MILLISECONDS);
+    // check if we need to load data initially and then once an hour
+    loadDataIfNeeded();
+    const updateDataInterval = setInterval(
+      loadDataIfNeeded,
+      HOUR_IN_MILLISECONDS
+    );
 
     return () => {
       clearInterval(updateCurrentTimeInterval);
       clearInterval(updateDataInterval);
     };
-  }, [loadData]);
-
-  useEffect(() => {
-    const loadData = async () => {
-      const rawData = await fetchUvData();
-      setLoading(false);
-      const formattedData = parseRawUvData(rawData);
-      setUvData(formattedData);
-    };
-
-    loadData();
   }, []);
 
   return (
