@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IUVIndexData, parseRawUvData } from "@/parseUvData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format as formatDate } from "date-fns";
@@ -24,8 +24,18 @@ const fetchUvData = async () => {
   return response;
 };
 
-const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+// if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
+const shouldFetchNewData = (lastFetchTimestamp: number) => {
+  const now = new Date();
+  const lastFetchDate = new Date(lastFetchTimestamp);
+  const hoursSinceLastFetch =
+    (now.getTime() - lastFetchDate.getTime()) / 3600000;
+  return hoursSinceLastFetch > 24 || now.getHours() === 4;
+};
+
 const MINUTE_IN_MILLISECONDS = 60 * 1000;
+const HOUR_IN_MILLISECONDS = MINUTE_IN_MILLISECONDS * 60;
+const DAY_IN_MILLISECONDS = HOUR_IN_MILLISECONDS * 24;
 
 export function UVIndexChart() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
@@ -33,20 +43,35 @@ export function UVIndexChart() {
   const [currentTimestamp, setCurrentTimestamp] = useState(
     new Date().getTime()
   );
+  const [dataTimestamp, setDataTimestamp] = useState(0);
 
   const nextDayTimestamp = new Date(
     currentTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
 
+  const loadData = useCallback(async () => {
+    if (shouldFetchNewData(dataTimestamp)) {
+      const rawData = await fetchUvData();
+      setDataTimestamp(new Date().getTime());
+      const formattedData = parseRawUvData(rawData);
+      setUvData(formattedData);
+    }
+  }, [dataTimestamp]);
+
   useEffect(() => {
-    const updateInterval = setInterval(() => {
+    const updateCurrentTimeInterval = setInterval(() => {
       setCurrentTimestamp(new Date().getTime());
     }, MINUTE_IN_MILLISECONDS);
 
+    // check for new data immediately and then every hour
+    loadData();
+    const updateDataInterval = setInterval(loadData, HOUR_IN_MILLISECONDS);
+
     return () => {
-      clearInterval(updateInterval);
+      clearInterval(updateCurrentTimeInterval);
+      clearInterval(updateDataInterval);
     };
-  }, []);
+  }, [loadData]);
 
   useEffect(() => {
     const loadData = async () => {
