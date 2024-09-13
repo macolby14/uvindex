@@ -20,16 +20,29 @@ const fetchUvData = async () => {
   return response;
 };
 
-const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+const MINUTE_IN_MILLISECONDS = 60 * 1000;
 
 export function UVIndexChart() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentTimestamp, setCurrentTimestamp] = useState(
+    new Date().getTime()
+  );
 
-  const currentTimestamp = new Date().getTime();
   const nextDayTimestamp = new Date(
-    currentTimestamp + MILLISECONDS_IN_DAY
+    currentTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    const updateInterval = setInterval(() => {
+      setCurrentTimestamp(new Date().getTime());
+    }, MINUTE_IN_MILLISECONDS);
+
+    return () => {
+      clearInterval(updateInterval);
+    };
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
