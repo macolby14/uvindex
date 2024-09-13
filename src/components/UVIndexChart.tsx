@@ -16,7 +16,11 @@ import {
 const fetchUvData = async () => {
   const response = await fetch(
     "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
-  ).then((data) => data.json());
+  )
+    .then((data) => data.json())
+    .catch((error) => {
+      console.error("Error fetching UV data", error);
+    });
   return response;
 };
 
