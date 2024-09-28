@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/parse.test.ts","./src/parseUvData.ts","./src/vite-env.d.ts","./src/components/UVIndexChart.tsx","./src/components/ui/card.tsx","./src/lib/utils.ts"],"version":"5.6.2"}
