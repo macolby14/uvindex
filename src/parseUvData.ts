@@ -15,7 +15,6 @@ function keysToCamelCase(o: Record<string, any>): Record<string, any> {
 function formatDateField(o: Record<string, any>): Record<string, any> {
   const out = {} as Record<string, any>; //eslint-disable-line @typescript-eslint/no-explicit-any
   for (const [key, val] of Object.entries(o)) {
-    console.log("key", key);
     if (key === "dateTime") {
       out[key] = parseDate(val);
     } else {
