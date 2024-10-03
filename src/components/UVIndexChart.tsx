@@ -23,7 +23,6 @@ const fetchUvData = async () => {
     });
   return response;
 };
-
 // if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
 const shouldFetchNewData = (lastFetchTimestamp: number) => {
   const now = new Date();
@@ -43,10 +42,14 @@ export function UVIndexChart() {
   const [currentTimestamp, setCurrentTimestamp] = useState(
     new Date().getTime()
   );
+
+  const earliestTimestamp =
+    uvData.length > 0 ? uvData[0].dateTime : new Date().getTime();
+
   const dataTimestampRef = useRef(0);
 
   const nextDayTimestamp = new Date(
-    currentTimestamp + DAY_IN_MILLISECONDS
+    earliestTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
 
   const loadDataIfNeeded = async () => {
@@ -82,7 +85,9 @@ export function UVIndexChart() {
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>UV Index for {formatDate(new Date(), "MMMM d")}</CardTitle>
+        <CardTitle>
+          UV Index for {formatDate(new Date(earliestTimestamp), "MMMM d")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
