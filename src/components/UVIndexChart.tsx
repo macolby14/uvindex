@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { IUVIndexData, parseRawUvData } from "@/parseUvData";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format as formatDate } from "date-fns";
 import {
   CartesianGrid,
