@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import {
   fetchUvData,
+  IUVData,
   parseRawUvData,
 } from "@/components/UVIndexChart/UVIndexChart.helper";
 
@@ -29,7 +30,7 @@ const shouldFetchNewData = (lastFetchTimestamp: number) => {
 };
 
 export function UVIndexChart() {
-  const [uvData, setUvData] = useState<IUVIndexData[]>([]);
+  const [uvData, setUvData] = useState<IUVData[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTimestamp, setCurrentTimestamp] = useState(
     new Date().getTime()
