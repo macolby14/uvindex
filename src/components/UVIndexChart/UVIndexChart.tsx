@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { IUVIndexData, parseRawUvData } from "@/parseUvData";
 import { format as formatDate } from "date-fns";
 import {
   CartesianGrid,
@@ -11,7 +10,10 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
-import { fetchUvData } from "./UVIndexChart.helper";
+import {
+  fetchUvData,
+  parseRawUvData,
+} from "@/components/UVIndexChart/UVIndexChart.helper";
 
 // if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
 const shouldFetchNewData = (lastFetchTimestamp: number) => {
