@@ -1,4 +1,4 @@
-import { UVIndexChart } from "./components/UVIndexChart";
+import { UVIndexChart } from "./components/UVIndexChart/UVIndexChart";
 
 function App() {
   return (

@@ -11,17 +11,8 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
+import { fetchUvData } from "./UVIndexChart.helper";
 
-const fetchUvData = async () => {
-  const response = await fetch(
-    "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
-  )
-    .then((data) => data.json())
-    .catch((error) => {
-      console.error("Error fetching UV data", error);
-    });
-  return response;
-};
 // if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
 const shouldFetchNewData = (lastFetchTimestamp: number) => {
   const now = new Date();
@@ -45,20 +36,25 @@ export function UVIndexChart() {
   const earliestTimestamp =
     uvData.length > 0 ? uvData[0].dateTime : new Date().getTime();
 
-  const dataTimestampRef = useRef(0);
+  const lastDataUpdateTimestamp = useRef(0);
 
   const nextDayTimestamp = new Date(
     earliestTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
 
+  /**
+   * Load data if the current data is outdated
+   */
   const loadDataIfNeeded = async () => {
-    if (shouldFetchNewData(dataTimestampRef.current)) {
+    if (shouldFetchNewData(lastDataUpdateTimestamp.current)) {
       setLoading(true);
       const rawData = await fetchUvData();
       setLoading(false);
-      dataTimestampRef.current = new Date().getTime();
-      const formattedData = parseRawUvData(rawData);
-      setUvData(formattedData);
+      if (rawData !== null) {
+        lastDataUpdateTimestamp.current = new Date().getTime();
+        const formattedData = parseRawUvData(rawData);
+        setUvData(formattedData);
+      }
     }
   };
 

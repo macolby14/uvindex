@@ -1,3 +1,5 @@
+import { IRawUvData } from "./components/UVIndexChart/UVIndexChart.helper";
+
 function toCamelCase(str: string): string {
   return str.toLowerCase().replace(/(_\w)/g, (match) => match[1].toUpperCase());
 }
@@ -71,8 +73,8 @@ export interface IUVIndexData {
   dateTime: number; // timestmap
   uvValue: number;
 }
-//eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function parseRawUvData(data: Record<string, any>[]): IUVIndexData[] {
+
+export function parseRawUvData(data: IRawUvData[]): IUVIndexData[] {
   const formattedData = data.map((point) =>
     formatDateField(keysToCamelCase(point))
   );
