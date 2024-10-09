@@ -66,7 +66,7 @@ export function parseDate(dateString: string): number {
   return new Date(year, month, day, hour).getTime();
 }
 
-export interface IUVIndexData {
+export interface IUVData {
   zip: string;
   city: string;
   state: string;
@@ -74,9 +74,9 @@ export interface IUVIndexData {
   uvValue: number;
 }
 
-export function parseRawUvData(data: IRawUvData[]): IUVIndexData[] {
+export function parseRawUvData(data: IRawUvData[]): IUVData[] {
   const formattedData = data.map((point) =>
     formatDateField(keysToCamelCase(point))
   );
-  return formattedData as IUVIndexData[];
+  return formattedData as IUVData[];
 }
