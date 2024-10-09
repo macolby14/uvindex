@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { IUVIndexData, parseRawUvData } from "@/parseUvData";
 import { format as formatDate } from "date-fns";
 import {
   CartesianGrid,
@@ -11,32 +10,27 @@ import {
   LineChart,
   ResponsiveContainer,
 } from "recharts";
-
-const fetchUvData = async () => {
-  const response = await fetch(
-    "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
-  )
-    .then((data) => data.json())
-    .catch((error) => {
-      console.error("Error fetching UV data", error);
-    });
-  return response;
-};
-// if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
-const shouldFetchNewData = (lastFetchTimestamp: number) => {
-  const now = new Date();
-  const lastFetchDate = new Date(lastFetchTimestamp);
-  const hoursSinceLastFetch =
-    (now.getTime() - lastFetchDate.getTime()) / 3600000;
-  return hoursSinceLastFetch > 24 || now.getHours() === 4;
-};
+import {
+  fetchUvData,
+  IUVData,
+  parseRawUvData,
+} from "@/components/UVIndexChart/UVIndexChart.helper";
 
 const MINUTE_IN_MILLISECONDS = 60 * 1000;
 const HOUR_IN_MILLISECONDS = MINUTE_IN_MILLISECONDS * 60;
 const DAY_IN_MILLISECONDS = HOUR_IN_MILLISECONDS * 24;
 
+// if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
+const shouldFetchNewData = (lastFetchTimestamp: number) => {
+  const now = new Date();
+  const lastFetchDate = new Date(lastFetchTimestamp);
+  const hoursSinceLastFetch =
+    (now.getTime() - lastFetchDate.getTime()) / HOUR_IN_MILLISECONDS;
+  return hoursSinceLastFetch > 24 || now.getHours() === 4;
+};
+
 export function UVIndexChart() {
-  const [uvData, setUvData] = useState<IUVIndexData[]>([]);
+  const [uvData, setUvData] = useState<IUVData[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTimestamp, setCurrentTimestamp] = useState(
     new Date().getTime()
@@ -45,20 +39,25 @@ export function UVIndexChart() {
   const earliestTimestamp =
     uvData.length > 0 ? uvData[0].dateTime : new Date().getTime();
 
-  const dataTimestampRef = useRef(0);
+  const lastDataUpdateTimestamp = useRef(0);
 
   const nextDayTimestamp = new Date(
     earliestTimestamp + DAY_IN_MILLISECONDS
   ).setHours(0, 0, 0, 0);
 
+  /**
+   * Load data if the current data is outdated
+   */
   const loadDataIfNeeded = async () => {
-    if (shouldFetchNewData(dataTimestampRef.current)) {
+    if (shouldFetchNewData(lastDataUpdateTimestamp.current)) {
       setLoading(true);
       const rawData = await fetchUvData();
       setLoading(false);
-      dataTimestampRef.current = new Date().getTime();
-      const formattedData = parseRawUvData(rawData);
-      setUvData(formattedData);
+      if (rawData !== null) {
+        lastDataUpdateTimestamp.current = new Date().getTime();
+        const formattedData = parseRawUvData(rawData);
+        setUvData(formattedData);
+      }
     }
   };
 

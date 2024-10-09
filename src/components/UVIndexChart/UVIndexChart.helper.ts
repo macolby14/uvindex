@@ -1,3 +1,24 @@
+interface IRawUvData {
+  ORDER: number;
+  ZIP: string;
+  CITY: string;
+  STATE: string;
+  DATE_TIME: string;
+  UV_VALUE: number;
+}
+
+export const fetchUvData = async (): Promise<IRawUvData[] | null> => {
+  const response = await fetch(
+    "https://data.epa.gov/efservice/getEnvirofactsUVHOURLY/ZIP/10065/JSON"
+  )
+    .then((data) => data.json() as Promise<IRawUvData[]>)
+    .catch((error) => {
+      console.error("Error fetching UV data", error);
+      return null;
+    });
+  return response;
+};
+
 function toCamelCase(str: string): string {
   return str.toLowerCase().replace(/(_\w)/g, (match) => match[1].toUpperCase());
 }
@@ -64,17 +85,17 @@ export function parseDate(dateString: string): number {
   return new Date(year, month, day, hour).getTime();
 }
 
-export interface IUVIndexData {
+export interface IUVData {
   zip: string;
   city: string;
   state: string;
   dateTime: number; // timestmap
   uvValue: number;
 }
-//eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function parseRawUvData(data: Record<string, any>[]): IUVIndexData[] {
+
+export function parseRawUvData(data: IRawUvData[]): IUVData[] {
   const formattedData = data.map((point) =>
     formatDateField(keysToCamelCase(point))
   );
-  return formattedData as IUVIndexData[];
+  return formattedData as IUVData[];
 }
