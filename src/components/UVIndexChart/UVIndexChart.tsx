@@ -15,18 +15,18 @@ import {
   parseRawUvData,
 } from "@/components/UVIndexChart/UVIndexChart.helper";
 
+const MINUTE_IN_MILLISECONDS = 60 * 1000;
+const HOUR_IN_MILLISECONDS = MINUTE_IN_MILLISECONDS * 60;
+const DAY_IN_MILLISECONDS = HOUR_IN_MILLISECONDS * 24;
+
 // if it has been more than 24 hours since the last fetch or if it is apprxomiately 4am local time, fetch new data
 const shouldFetchNewData = (lastFetchTimestamp: number) => {
   const now = new Date();
   const lastFetchDate = new Date(lastFetchTimestamp);
   const hoursSinceLastFetch =
-    (now.getTime() - lastFetchDate.getTime()) / 3600000;
+    (now.getTime() - lastFetchDate.getTime()) / HOUR_IN_MILLISECONDS;
   return hoursSinceLastFetch > 24 || now.getHours() === 4;
 };
-
-const MINUTE_IN_MILLISECONDS = 60 * 1000;
-const HOUR_IN_MILLISECONDS = MINUTE_IN_MILLISECONDS * 60;
-const DAY_IN_MILLISECONDS = HOUR_IN_MILLISECONDS * 24;
 
 export function UVIndexChart() {
   const [uvData, setUvData] = useState<IUVIndexData[]>([]);
